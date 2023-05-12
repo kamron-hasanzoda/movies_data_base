@@ -1,28 +1,22 @@
-/* Задания на урок:
+import { movies } from "../modules/db.js";
 
-1) Удалить все рекламные блоки со страницы (правая часть сайта)
+let cont = document.querySelector('.promo__interactive-list')
+let com = document.querySelector('.promo__genre')
+let tit = document.querySelector('.promo__title')
+let des = document.querySelector('.promo__descr')
+let im = document.querySelector('.im')
+let poisk = document.querySelector('.poisk')
 
-2) Изменить жанр фильма, поменять "комедия" на "драма"
+const movieDb = [];
 
-3) Изменить задний фон постера с фильмом на изображение "bg.jpg". Оно лежит в папке img.
-Реализовать только при помощи JS
+let sorted = movies
+movieDb.push(sorted)
+reload(sorted, cont)
 
-4) Список фильмов на странице сформировать на основании данных из этого JS файла.
-Отсортировать их по алфавиту 
-
-5) Добавить нумерацию выведенных фильмов */
-
-'use strict';
-
-const movieDB = {
-    movies: [
-        "Логан",
-        "Лига справедливости",
-        "Ла-ла лэнд",
-        "Одержимость",
-        "Скотт Пилигрим против..."
-    ]
-};
+movies.forEach(i => {
+    movieDb.push(i.Title)
+    movieDb.sort()
+})
 
 // 1
 let adds = document.querySelectorAll('.promo__adv img')
@@ -45,14 +39,36 @@ genre.forEach((type) => {
 
 // 3
 let back = document.querySelector('.promo__bg')
-
 back.style.backgroundImage = 'url(./img/bg.jpg)'
 
-// delete
-let deleted = document.querySelectorAll('.promo__interactive-item .delete')
+// create
+function reload(arr, place) {
+    place.innerHTML = ''
+    for (let item of arr) {
+        let li = document.createElement('li')
+        let del = document.createElement('div')
 
-deleted.forEach(del => {
-    del.onclick = () => {
-        del.parentNode.remove()
+        li.innerHTML = (arr.indexOf(item) + 1) + '. ' + item.Title
+        li.classList.add('promo__interactive-item')
+        del.classList.add('delete')
+
+        li.onclick = () => {
+            back.style.background = `url("${item.Poster}")`
+            com.innerHTML = item.Genre
+            des.innerHTML = item.Writer.slice(0, 120)
+            tit.innerHTML = item.Title
+            im.innerHTML = `IMDb: ${item.imdbRating}`
+            poisk.innerHTML = `Кинопоиск: ${Math.round(item.imdbRating)}`
+        }
+
+        del.onclick = () => {
+            movies.filter(el => el !== item)
+            del.parentElement.remove()
+        }
+
+        li.append(del)
+        place.append(li)
     }
-});
+}
+
+reload(sorted, cont)
