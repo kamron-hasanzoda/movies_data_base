@@ -11,9 +11,8 @@ const movieDb = [];
 
 let sorted = movies
 movieDb.push(sorted)
-reload(sorted, cont)
 
-movies.forEach(i => {
+sorted.forEach(i => {
     movieDb.push(i.Title)
     movieDb.sort()
 })
@@ -56,14 +55,16 @@ function reload(arr, place) {
             back.style.background = `url("${item.Poster}")`
             com.innerHTML = item.Genre
             des.innerHTML = item.Writer.slice(0, 120)
-            tit.innerHTML = item.Title
             im.innerHTML = `IMDb: ${item.imdbRating}`
             poisk.innerHTML = `Кинопоиск: ${Math.round(item.imdbRating)}`
         }
 
         del.onclick = () => {
-            movies.filter(el => el !== item)
             del.parentElement.remove()
+                if(item.Title != arr.forEach(i => i.Title)) {
+                    sorted = sorted.filter(el => el.Title != item.Title)
+                    console.log(sorted);
+                }
         }
 
         li.append(del)
