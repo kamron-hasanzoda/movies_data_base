@@ -49,7 +49,7 @@ function reload(arr) {
 
         del.onclick = () => {
             li.remove()
-            massiv = massiv.filter(el => el.ID != index)
+            massiv = massiv.filter(el => el.ID != movie.ID)
             console.log(massiv);
         }
 
